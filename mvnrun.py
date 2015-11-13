@@ -147,6 +147,7 @@ class Mvnrun:
                 origwd = os.getcwd()
                 try:
                     os.chdir(os.path.join(self.workingDir,cfg))
+                    logging.info("{0}:".format(cfg))
                     for goalsobj in cfgObj[cfg]:
                         cmd = self.buildMavenCommandFromlist(goalsobj)
                         self.executeCmd(cmd)
