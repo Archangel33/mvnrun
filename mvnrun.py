@@ -39,14 +39,16 @@ class Config(object):
 class YamlConfig(Config):
 
     def __init__(self, filepath):
-        Config.__filepath(filepath)
+        self.config = {}
+        self.filepath = filepath
+        print self.filepath
 
     def loadConfig(self):
         with open(self.filepath, 'r') as stream:
             self.config = yaml.load(stream)
 
     def parseConfig(self):
-        pass
+        return self.config
 
 
 class Mvnrun:
@@ -63,7 +65,9 @@ class Mvnrun:
 
     def init_config_file(self):
         """ Process values in config file """
-        self.config = Config(self.config_path)
+        self.config = YamlConfig(self.config_path)
+        self.config.loadConfig()
+        self.config = self.config.parseConfig()
 
     def init_options(self):
         """ Process Command line options """
@@ -135,15 +139,14 @@ class Mvnrun:
         if self.onBuildFailureShowMavenOutput or self.showMavenOutputbool: # this logic needs to be re-assesed
             logging.info(output)
 
-
     def main(self):
+        print self.config
         mavencfgs = self.config["MavenConfigs"]
         for cfgObj in mavencfgs:
             for cfg in cfgObj:
                 origwd = os.getcwd()
                 try:
                     os.chdir(os.path.join(self.workingDir,cfg))
-                    logging.info("{0}:".format(cfg))
                     for goalsobj in cfgObj[cfg]:
                         cmd = self.buildMavenCommandFromlist(goalsobj)
                         self.executeCmd(cmd)
