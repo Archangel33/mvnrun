@@ -31,9 +31,10 @@ class Config(object):
     def __init__(self, filepath):
         self.__filepath = filepath
 
-    def loadConfig(self)
+    def loadConfig(self):
         pass
-    def parseConfig
+    def parseConfig(self):
+        pass
 
 class YamlConfig(Config):
 
@@ -51,7 +52,6 @@ class YamlConfig(Config):
 class Mvnrun:
 
     def __init__(self,options):
-
         self.BUILDSUCCESS = 'BUILD SUCCESS'
         self.BUILDFAILURE = 'BUILD FAUILURE'
         self.options = options
@@ -146,8 +146,8 @@ class Mvnrun:
                     logging.info("{0}:".format(cfg))
                     for goalsobj in cfgObj[cfg]:
                         cmd = self.buildMavenCommandFromlist(goalsobj)
-                       self.executeCmd(cmd)
-                       os.chdir(origwd)
+                        self.executeCmd(cmd)
+                        os.chdir(origwd)
                 except Exception as e:
                     logging.warning(e)
                 finally:
