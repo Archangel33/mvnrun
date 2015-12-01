@@ -1,0 +1,42 @@
+# mvnrun config file
+# This file is a usable config file that contains example configurations for mvnrun
+
+MavenCommands:
+ # Maven goal configureations
+ - VCI: &vci # Setup configurations with yaml back references. Use yaml lists to list out each goal
+    - validate
+    - clean
+    - install
+    - "-X"
+    - "-U"
+ - Interface: &vcpi
+    - validate
+    - clean
+    - package
+    - install
+    - "-X -U -f pom-file.xml" # Use strings to include spaces
+ - stringI: &strI
+    - "validate clean package install -X -U -f pom-file.xml" # Define complete maven goals / cmd line options
+ - SOA: &soa
+    - "validate clean package install -X -U -f pom-file.xml"
+MavenConfigs:
+   # Maven run configurations
+ - mnvconf_1: # !!NOTE: Names should case match the file directory. (this is the "base dir" setting from eclipse's maven run configurations)
+   - *vci # run validate clean install mvn config
+ - mnvconf_2:
+   - *vci  # run one mvn build per list item
+   - *vcpi
+ - mnvconf_3:
+   - *vci
+ - mnvconf_4:
+   - [validate, clean, install] # Configurations Can be defined as a list, inline too!
+ - mnvconf_5:
+   - ["validate clean","install", "-X", "-U"] # This can also be a list of strings! (all goals in one or seperated by commas or any combination of full words)
+   - *vcpi
+ - mnvconf_6:
+   - *vci
+   - *strI
+ - mvnconf_7: [*vci, *vcpi, ["validate clean package install -X -U -f pom-file.xml"] ] # Configurations can also be listed like this!
+ - mvnconf_8: [*vci]
+ - mvnconf_9:
+   - *vci
